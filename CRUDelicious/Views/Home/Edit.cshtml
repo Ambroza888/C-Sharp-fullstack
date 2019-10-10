@@ -1,0 +1,31 @@
+@model Dish
+@using CRUDelicious.Models
+<a href="/">Home</a>
+<h1 class="h1 text-center">@Model.Name</h1>
+<form action="/Edit/@Model.DishId" method="post">
+  <div class="row">
+    <div class="col-3">
+      <label asp-for="Chef"></label><br>
+      <input asp-for="Chef" value="@Model.Chef"><br>
+      
+      <label asp-for="Name"></label><br>
+      <input asp-for="Name" value="@Model.Name"><br>
+
+      <label asp-for="Calories"></label><br>
+      <input asp-for="Calories" value="@Model.Calories">
+    </div>
+    <div class="col">
+      <select asp-for="Tastiness">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+    <div class="col">
+      <textarea asp-for="Description" cols="30" rows="5"></textarea><br>
+      <input type="Submit" value="Edit Dish">
+    </div>
+  </div>
+</form>
