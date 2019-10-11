@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Login_Registration.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Login_Registration.Controllers
 {
@@ -16,10 +17,17 @@ namespace Login_Registration.Controllers
         {
             dbContext = context;
         }
+        // ---------------------------------------------------------------------
+        // Index
+        // ---------------------------------------------------------------------
+        [HttpGet("")]
         public IActionResult Index()
         {
             return View("index");
         }
+        // ---------------------------------------------------------------------
+        // Registrating to db
+        // ---------------------------------------------------------------------
         [HttpPost("/Register")]
         public IActionResult Register(User user)
         {
@@ -48,15 +56,62 @@ namespace Login_Registration.Controllers
             }
             return View("Index");
         }
+        // ---------------------------------------------------------------------
+        // Login Page
+        // ---------------------------------------------------------------------
         [HttpGet("Login")]
         public IActionResult Login()
         {
             return View("Login");
         }
+        // ---------------------------------------------------------------------
+        // Log in TO success or BELT EXAM would be this page !
+        // ---------------------------------------------------------------------
+        [HttpPost("logToSuccess")]
+        public IActionResult LoginSuccess(LoginUser userSubmision)
+        {
+            if(ModelState.IsValid)
+            {
+                var userInDb = dbContext.Users.FirstOrDefault(u => u.Email == userSubmision.Email);
+                if(userInDb == null)
+                {
+                    ModelState.AddModelError("Email","Invalid Email/Password");
+                    return View("Login");
+                }
+                var hasher = new PasswordHasher<LoginUser>();
+                var result = hasher.VerifyHashedPassword(userSubmision,userInDb.Password,userSubmision.Password);
+                if(result == 0)
+                {
+                    ModelState.AddModelError("Password","Invalid Email/Password");
+                    return View("Login");
+                }
+                //--------------------- Creating session after all those checks -------------------
+                int user_id = userInDb.UserId;
+                HttpContext.Session.SetInt32("user_id",user_id);
+                return RedirectToAction("Success");
+            }
+            return View("Login");
+        }
+        // ---------------------------------------------------------------------
+        // Success PAGE potential belt-exam page
+        // ---------------------------------------------------------------------
 
+        [HttpGet("Success")]
+        public IActionResult Success()
+        {
+            if(HttpContext.Session.GetInt32("user_id") == null)
+            {
+                return RedirectToAction("Login");
+            }
+                return View("Success");
+        }
 
-
-
+        [HttpGet("clear")]
+        public IActionResult clearSession()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
 
 
 

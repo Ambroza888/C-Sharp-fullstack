@@ -28,3 +28,4 @@ D:\Coding_Dojo_C#\fullSTACK\Login_Registration\obj\Debug\netcoreapp2.2\Login_Reg
 D:\Coding_Dojo_C#\fullSTACK\Login_Registration\obj\Debug\netcoreapp2.2\Login_Registration.pdb
 D:\Coding_Dojo_C#\fullSTACK\Login_Registration\obj\Debug\netcoreapp2.2\Login_Registration.csproj.CopyComplete
 D:\Coding_Dojo_C#\fullSTACK\Login_Registration\obj\Debug\netcoreapp2.2\Razor\Views\Home\Login.g.cshtml.cs
+D:\Coding_Dojo_C#\fullSTACK\Login_Registration\obj\Debug\netcoreapp2.2\Razor\Views\Home\Success.g.cshtml.cs
