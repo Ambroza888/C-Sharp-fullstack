@@ -40,7 +40,7 @@ namespace shefDish.Controllers
         [HttpPost("add")]
         public IActionResult Add(Chef newChef)
         {
-            // ---Checking if the chef is more than 18years old----
+            // -Checking if the chef is more than 18years old-
             DateTime date = Convert.ToDateTime(newChef.DOB);
             int age = (DateTime.Now.Year - date.Year);
             if (date.Date > DateTime.Today.AddYears(-age))
@@ -52,7 +52,7 @@ namespace shefDish.Controllers
                 ModelState.AddModelError("DOB", " The Chef need to be atleast 18 years old");
                 return View("new");
             }
-            // -----------------model Check-------------------------------
+            // model Check-----------------------
             if(ModelState.IsValid)
             {   
                 dbContext.Add(newChef);
@@ -70,8 +70,9 @@ namespace shefDish.Controllers
         [HttpGet("/dishes")]
         public IActionResult Dishes()
         {
-            
-            return View("Dishes");
+            List <Dish> _dishes = dbContext.Dishes.Include(c=>c.Chef).ToList();
+
+            return View("Dishes",_dishes);
         }
         // ---------------------------------------------------------------------
         // Addin Dish View Rout
