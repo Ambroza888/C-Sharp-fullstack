@@ -1,0 +1,49 @@
+@model Dish
+  <form action="/CreateDish" method="post">
+  <h1 class="text-center">Add a Dish!</h1>
+  <a href="/dishes">Home</a>
+  <div class="row mt-5">
+      <div class="col">
+        <span class="text-danger" asp-validation-for="NameDish"></span>
+        <p>Name of Dish</p>
+        <input asp-for="NameDish">
+      </div>
+      <div class="col">
+          <p>Chef</p>
+        <select asp-for="ChefId">
+        @foreach(var i in ViewBag.Chefs)
+        {
+          <option value="@i.ChefId">@i.FirstName @i.LastName</option>
+        }
+        </select>
+      </div>
+      <div class="col">
+        <span class="text-danger" asp-validation-for="Tastiness"></span>
+        <p>Tastiness</p>
+        <select asp-for="Tastiness">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <span class="text-danger" asp-validation-for="Calories"></span>
+      <p># of Calories</p>
+      <input asp-for="Calories">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <span class="text-danger" asp-validation-for="Description"></span>
+      <p>Description</p>
+      <textarea asp-for="Description" cols="30" rows="4"></textarea>
+    </div>
+    <div class="col">
+      <input type="submit" value="Add Dish!">
+    </div>
+  </div>
+  </form>
