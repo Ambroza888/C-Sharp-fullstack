@@ -166,7 +166,7 @@ namespace Login_Registration.Controllers
                     ViewBag.OneUser = OneUser;
                     ViewBag._transactions = _transactions;
                     ViewBag.balance = (decimal)balance;
-                    ModelState.AddModelError("Amount","Not enought Balance on you're bank account");
+                    ModelState.AddModelError("Amount",$"Not enought Balance on you're bank account to take of {newTrans.Amount}$");
                         return View("Success");
                 }
 
