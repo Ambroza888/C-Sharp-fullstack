@@ -1,0 +1,20 @@
+
+<h1>@ViewBag.pruduct.ProductName</h1>
+
+<div class="row">
+  <div class="col">
+    <h4>Categories:</h4>
+  </div>
+  <div class="col">
+    <p>Add Category</p>
+    <form action="/catTOproduct" method="post">
+        <select>
+          @foreach(var i in @ViewBag.categories)
+          {
+            <option value="@i.CategoryId">@i.CategoryName</option>
+          }
+          </select>
+            <input type="Submit" value="Add">
+    </form>
+  </div>
+</div>

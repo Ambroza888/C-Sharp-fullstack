@@ -1,0 +1,31 @@
+﻿@model Product
+<h1 class="text-center">Products | <a href="/Categories">Categories</a></h1>
+<div class="row mt-5">
+    <div class="col border-right border-dark p-0">
+        <h4>New Product</h4>
+        <form action="/createProduct" method="post">
+            <div class="row mt-5">
+                <div class="col-2">
+                    <p>Name:</p>
+                    <p>Description:</p>
+                    <p>Price:</p>
+                </div>
+                <div class="col">
+                    <p><input asp-for="ProductName"></p>
+                    <p><textarea asp-for="Description" cols="23" rows="2"></textarea></p>
+
+                    <p><input asp-for="Price" type="number" step="any"></p>
+
+                    <p><input type="submit" value="Create"></p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h4>Existing Products</h4>
+        @foreach(var i in @ViewBag.products)
+        {
+            <p><a href="/updateproduct/@i.ProductId">@i.ProductName</a></p>
+        }
+    </div>
+</div>
