@@ -34,8 +34,12 @@ namespace ProdCategories.Controllers
         [HttpGet("/updateproduct/{ProdId}")]
         public IActionResult Updateproduct(int ProdId)
         {
-            Product oneproduct = dbContext.Products.Include(c=>c.PRODtoCATEG).ThenInclude(c=>c.Catergory).FirstOrDefault(c=>c.ProductId == ProdId);
-            List<Catergory> _categories = dbContext.Catergories.ToList();
+            Product oneproduct = dbContext.Products.FirstOrDefault(c=>c.ProductId == ProdId);
+            List<Catergory> _categories = dbContext.Catergories.Include(q => q.CATEGtoPROD).ThenInclude(w =>w.ProductId != ProdId).ToList();
+
+
+
+
 
             ViewBag.categories = _categories;
             ViewBag.pruduct = oneproduct;
