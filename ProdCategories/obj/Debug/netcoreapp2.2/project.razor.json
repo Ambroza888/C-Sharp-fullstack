@@ -2966,6 +2966,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\Home\\UpdateCategory.cshtml",
+      "TargetPath": "Views\\Home\\UpdateCategory.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\Home\\Updateproduct.cshtml",
       "TargetPath": "Views\\Home\\Updateproduct.cshtml",
       "FileKind": "mvc"

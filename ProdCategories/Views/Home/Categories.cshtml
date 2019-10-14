@@ -17,7 +17,7 @@
             <h4>Existing Categories</h4>
             @foreach (var i in @ViewBag.categories)
             {
-              <p>@i.CategoryName</p>
+              <a href="/updateCategory/@i.CategoryId"><p>@i.CategoryName</p></a>
             }
         </div>
     </div>

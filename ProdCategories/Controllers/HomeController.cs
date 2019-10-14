@@ -106,8 +106,20 @@ namespace ProdCategories.Controllers
             dbContext.SaveChanges();
             return Redirect($"/updateproduct/{r}");
         }
+        // ---------------------------------------------------------------------
+        // VIEW page to represent Categories
+        // ---------------------------------------------------------------------
+        [HttpGet("/updateCategory/{CategoryId}")]
+        public IActionResult updateCategory(int CategoryId)
+        {
+            Category oneCategory = dbContext.Categories.Include(c=>c.Associations).ThenInclude(c=>c.Product).FirstOrDefault(c=>c.CategoryId == CategoryId);
+            ViewBag.oneCategory = oneCategory;
 
 
+
+
+            return View("UpdateCategory");
+        }
 
 
 

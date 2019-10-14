@@ -30,3 +30,4 @@ D:\Coding_Dojo_C#\fullSTACK\ProdCategories\obj\Debug\netcoreapp2.2\ProdCategorie
 D:\Coding_Dojo_C#\fullSTACK\ProdCategories\obj\Debug\netcoreapp2.2\Razor\Views\Home\Updateproduct.g.cshtml.cs
 D:\Coding_Dojo_C#\fullSTACK\ProdCategories\obj\Debug\netcoreapp2.2\Razor\Views\Home\Categories.g.cshtml.cs
 D:\Coding_Dojo_C#\fullSTACK\ProdCategories\obj\Debug\netcoreapp2.2\Razor\Views\Home\Product.g.cshtml.cs
+D:\Coding_Dojo_C#\fullSTACK\ProdCategories\obj\Debug\netcoreapp2.2\Razor\Views\Home\UpdateCategory.g.cshtml.cs
