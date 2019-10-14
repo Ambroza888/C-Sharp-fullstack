@@ -1,18 +1,28 @@
-<h1>@ViewBag.pruduct.ProductName</h1>
+@model Association
+<h1>@ViewBag.product.ProductName</h1>
+<a href="/">HOME</a>
+
 
 <div class="row">
   <div class="col">
     <h4>Categories:</h4>
+    <ul>
+      @foreach(var j in @ViewBag.usedCategories)
+      {
+      <li>@j.CategoryName</li>
+      }
+    </ul>
   </div>
   <div class="col">
     <p>Add Category</p>
     <form action="/catTOproduct" method="post">
-        <select>
-          @foreach(var i in @ViewBag.categories)
+        <select asp-for="CategoryId">
+          @foreach(var i in @ViewBag.NOTusedCategories)
           {
-            <option value="@i.CategoryId">@i.CategoryName</option>
+          <option value="@i.CategoryId">@i.CategoryName</option>
           }
           </select>
+            <input type="hidden" asp-for="ProductId" value="@ViewBag.product.ProductId">
             <input type="Submit" value="Add">
     </form>
   </div>

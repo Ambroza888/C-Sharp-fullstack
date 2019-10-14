@@ -9,7 +9,7 @@ namespace ProdCategories.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Catergories",
+                name: "Categories",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(nullable: false)
@@ -20,7 +20,7 @@ namespace ProdCategories.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Catergories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,9 +55,9 @@ namespace ProdCategories.Migrations
                 {
                     table.PrimaryKey("PK_Associations", x => x.AssociationId);
                     table.ForeignKey(
-                        name: "FK_Associations_Catergories_CategoryId",
+                        name: "FK_Associations_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Catergories",
+                        principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -85,7 +85,7 @@ namespace ProdCategories.Migrations
                 name: "Associations");
 
             migrationBuilder.DropTable(
-                name: "Catergories");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Products");

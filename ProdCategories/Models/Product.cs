@@ -13,7 +13,7 @@ namespace ProdCategories.Models
     public string ProductName { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
-    public List<Association> PRODtoCATEG { get; set; }
+    public List<Association> Associations { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
   }

@@ -9,7 +9,7 @@ using ProdCategories.Models;
 namespace ProdCategories.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20191012232646_FirstMigration")]
+    [Migration("20191014182732_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace ProdCategories.Migrations
                     b.ToTable("Associations");
                 });
 
-            modelBuilder.Entity("ProdCategories.Models.Catergory", b =>
+            modelBuilder.Entity("ProdCategories.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd();
@@ -54,7 +54,7 @@ namespace ProdCategories.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Catergories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ProdCategories.Models.Product", b =>
@@ -79,13 +79,13 @@ namespace ProdCategories.Migrations
 
             modelBuilder.Entity("ProdCategories.Models.Association", b =>
                 {
-                    b.HasOne("ProdCategories.Models.Catergory", "Catergory")
-                        .WithMany()
+                    b.HasOne("ProdCategories.Models.Category", "Category")
+                        .WithMany("Associations")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProdCategories.Models.Product", "Product")
-                        .WithMany("PRODtoCATEG")
+                        .WithMany("Associations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
