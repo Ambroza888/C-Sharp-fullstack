@@ -41,7 +41,7 @@ namespace ProdCategories.Controllers
             List<Category> allCategories = dbContext.Categories.ToList();
 
             //*** Get Only used categories
-            //1) Empty list
+            // 1) Empty list
             List<Category> usedCategories = new List<Category>();
             // 2) Fill the list with all categories which this product assosiate with.
             foreach(Association association in oneproduct.Associations)
@@ -113,15 +113,45 @@ namespace ProdCategories.Controllers
         public IActionResult updateCategory(int CategoryId)
         {
             Category oneCategory = dbContext.Categories.Include(c=>c.Associations).ThenInclude(c=>c.Product).FirstOrDefault(c=>c.CategoryId == CategoryId);
+
+            //*** Create list of ALL-PRODUCTS
+            List<Product> allProducts = dbContext.Products.ToList();
+
+            //*** Find all the product which are included in that category!!!
+            List<Product> usedProducts = new List<Product>();
+            foreach(var i in oneCategory.Associations)
+            {
+                usedProducts.Add(i.Product);
+            }
+
+            //*** Find unused product by this category.
+            List<Product> notUsedProductbyThisCategory = new List<Product>();
+            foreach(var i in allProducts)
+            {
+                if(!usedProducts.Contains(i))
+                {
+                    notUsedProductbyThisCategory.Add(i);
+                }
+            }
+
+
             ViewBag.oneCategory = oneCategory;
-
-
-
-
+            ViewBag.usedProduct = usedProducts;
+            ViewBag.NOTusedproducts = notUsedProductbyThisCategory;
             return View("UpdateCategory");
         }
 
-
+        // ---------------------------------------------------------------------
+        // POST method category >> assos >>> product{adding product to categ}
+        // ---------------------------------------------------------------------
+        [HttpPost("/addProdTOCat")]
+        public IActionResult addProdTOCat(Association newass)
+        {
+            dbContext.Associations.Add(newass);
+            dbContext.SaveChanges();
+            int r = newass.CategoryId;
+            return Redirect($"/updateCategory/{r}");
+        }
 
 
 

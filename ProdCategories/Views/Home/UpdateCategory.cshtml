@@ -1,20 +1,25 @@
+@model Association
 <h1>@ViewBag.oneCategory.CategoryName</h1>
 <a href="/Categories">Home</a>
-
 <div class="row">
   <div class="col">
-    <h4>Categories:</h4>
-    <ul>
-      <li></li>
-    </ul>
+    <h4>Products:</h4>
+      @foreach(var i in ViewBag.usedProduct)
+      {
+        <p>@i.ProductName</p>
+      }
   </div>
   <div class="col">
-    <p>Add Category</p>
-    <form action="/catTOproduct" method="post">
-        <select>
-          <option></option>
-          </select>
-            <input type="Submit" value="Add">
+    <p>Add Product</p>
+    <form action="/addProdTOCat" method="post">
+        <select asp-for="ProductId">
+          @foreach(var i in @ViewBag.NOTusedproducts)
+          {
+            <option value="@i.ProductId">@i.ProductName</option>
+          }
+        </select>
+        <input type="hidden" asp-for="CategoryId">
+        <input type="Submit" value="Add">
     </form>
   </div>
 </div>
