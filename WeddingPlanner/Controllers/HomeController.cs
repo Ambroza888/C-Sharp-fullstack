@@ -119,6 +119,21 @@ namespace WeddingPlanner.Controllers
                 {
                     return RedirectToAction("Login");
                 }
+                //*** Get The user
+                User oneUser = dbContext.Users.Include(r => r.Rsvps).ThenInclude(w=>w.Wedding).FirstOrDefault(u =>u.UserId == (int)HttpContext.Session.GetInt32("user_id"));
+
+                //*** Get all the weddings
+                List <Wedding> all_weddings = dbContext.Weddings.Include(r =>r.Rsvps).ThenInclude(w => w.Wedding).ToList();
+                
+                //*** Find all the reservetaions connected with the user
+                List<Rsvp> UserReservetaions = dbContext.Rsvps.Where(w=>w.User.Equals(oneUser)).ToList();
+                foreach (var i in UserReservetaions)
+                {
+                    Console.WriteLine($"***********{i.User.FirstName}");
+                    Console.WriteLine($"***********{i.User.UserId}");
+                }
+
+
                     return View("Dashbord");
             }
         // ---------------------------------------------------------------------
@@ -140,10 +155,6 @@ namespace WeddingPlanner.Controllers
         [HttpPost("/createWedding")]
         public IActionResult CreateWedding(Wedding newwed)
         {
-            Console.WriteLine(newwed.Groom);
-            Console.WriteLine(newwed.Bride);
-            Console.WriteLine(newwed.UserId);
-            Console.WriteLine(newwed.Date);
             if(HttpContext.Session.GetInt32("user_id") == null)
             {
                 return RedirectToAction("Login");
@@ -153,11 +164,12 @@ namespace WeddingPlanner.Controllers
                 ModelState.AddModelError("Date","Wedding must be in the future");
                 return View("AddWedding");
             }
-            else if(ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 dbContext.Add(newwed);
                 dbContext.SaveChanges();
-                return RedirectToAction("Dashbord");
+                int wed_id = newwed.WeddingId;
+                return Redirect($"WeddingINFO/{wed_id}");
             }
             else
             {
@@ -169,8 +181,8 @@ namespace WeddingPlanner.Controllers
         // ---------------------------------------------------------------------
         // VIEW wedINFORMATION
         // ---------------------------------------------------------------------
-        [HttpGet("/WeddingINFO")]
-        public IActionResult WeddingINFO()
+        [HttpGet("/WeddingINFO/{wed_id}")]
+        public IActionResult WeddingINFO(int wed_id)
         {
             if(HttpContext.Session.GetInt32("user_id")== null)
             {
@@ -178,6 +190,8 @@ namespace WeddingPlanner.Controllers
                 ModelState.AddModelError("Password","I know what you did last summer :) !!!");
                 return View("Login");
             }
+            Wedding onewedding = dbContext.Weddings.Include(r => r.Rsvps).ThenInclude(u=>u.User).FirstOrDefault(w => w.WeddingId == wed_id);
+            ViewBag.onewed = onewedding;
 
             return View("WeddingINFO");
         }
