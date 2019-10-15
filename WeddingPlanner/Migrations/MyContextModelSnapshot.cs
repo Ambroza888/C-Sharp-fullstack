@@ -70,15 +70,18 @@ namespace WeddingPlanner.Migrations
                     b.Property<int>("WeddingId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Adress");
+                    b.Property<string>("Adress")
+                        .IsRequired();
 
-                    b.Property<string>("Bride");
+                    b.Property<string>("Bride")
+                        .IsRequired();
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("Date");
+                    b.Property<DateTime>("Date");
 
-                    b.Property<string>("Groom");
+                    b.Property<string>("Groom")
+                        .IsRequired();
 
                     b.Property<DateTime>("UpdatedAt");
 

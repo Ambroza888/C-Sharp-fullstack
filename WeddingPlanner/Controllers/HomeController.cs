@@ -5,8 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WeddingPlanner.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace WeddingPlanner.Controllers
 {
@@ -52,20 +53,22 @@ namespace WeddingPlanner.Controllers
                 user.Password = Hasher.HashPassword(user,user.Password);
                 dbContext.Add(user);
                 dbContext.SaveChanges();
-                return RedirectToAction("Login");
+                int user_id = user.UserId;
+                HttpContext.Session.SetInt32("user_id",user_id);
+                return RedirectToAction("Dashbord");
             }
             return View("Index");
         }
         // ---------------------------------------------------------------------
         // Login Page
         // ---------------------------------------------------------------------
-        [HttpGet("Login")]
-        public IActionResult Login()
-        {
-            return View("Login");
-        }
+            [HttpGet("Login")]
+            public IActionResult Login()
+            {
+                return View("Login");
+            }
         // ---------------------------------------------------------------------
-        // Log in TO success or BELT EXAM would be this page !
+        // Login TO success or BELT EXAM would be this page !
         // ---------------------------------------------------------------------
         [HttpPost("logToSuccess")]
         public IActionResult LoginSuccess(LoginUser userSubmision)
@@ -88,32 +91,96 @@ namespace WeddingPlanner.Controllers
                 //--------------------- Creating session after all those checks -------------------
                 int user_id = userInDb.UserId;
                 HttpContext.Session.SetInt32("user_id",user_id);
-                return RedirectToAction("Success");
+                return RedirectToAction("Dashbord");
             }
             return View("Login");
         }
+
+        // ---------------------------------------------------------------------
+        // CLEAR SESSION
+        // ---------------------------------------------------------------------
+            [HttpGet("/clear")]
+            public IActionResult clearSession()
+            {
+                HttpContext.Session.Clear();
+                return RedirectToAction("Login");
+            }
         // ---------------------------------------------------------------------
         // Success PAGE potential belt-exam page
         // ---------------------------------------------------------------------
+        // ---------------------------------------------------------------------
+        // Wedding Dashbord
+        // ---------------------------------------------------------------------
 
-        [HttpGet("Success")]
-        public IActionResult Success()
+            [HttpGet("/Dashbord")]
+            public IActionResult Dashbord()
+            {
+                if(HttpContext.Session.GetInt32("user_id") == null)
+                {
+                    return RedirectToAction("Login");
+                }
+                    return View("Dashbord");
+            }
+        // ---------------------------------------------------------------------
+        // Adding Wedding input VIEW PAGE
+        // ---------------------------------------------------------------------
+        [HttpGet("/addWedding")]
+        public IActionResult AddWedding()
         {
+            if(HttpContext.Session.GetInt32("user_id")== null)
+            {
+                return RedirectToAction("Login");
+            }
+            @ViewBag.user_id = (int)HttpContext.Session.GetInt32("user_id");
+            return View("AddWedding");
+        }
+        // ---------------------------------------------------------------------
+        // POST FORM CREATE WEDDING
+        // ---------------------------------------------------------------------
+        [HttpPost("/createWedding")]
+        public IActionResult CreateWedding(Wedding newwed)
+        {
+            Console.WriteLine(newwed.Groom);
+            Console.WriteLine(newwed.Bride);
+            Console.WriteLine(newwed.UserId);
+            Console.WriteLine(newwed.Date);
             if(HttpContext.Session.GetInt32("user_id") == null)
             {
                 return RedirectToAction("Login");
             }
-                return View("Success");
+            if(newwed.Date < DateTime.Now)
+            {
+                ModelState.AddModelError("Date","Wedding must be in the future");
+                return View("AddWedding");
+            }
+            else if(ModelState.IsValid)
+            {
+                dbContext.Add(newwed);
+                dbContext.SaveChanges();
+                return RedirectToAction("Dashbord");
+            }
+            else
+            {
+                ViewBag.errors = ModelState.Values;
+                return View("AddWedding");
+            }
         }
 
-        [HttpGet("clear")]
-        public IActionResult clearSession()
+        // ---------------------------------------------------------------------
+        // VIEW wedINFORMATION
+        // ---------------------------------------------------------------------
+        [HttpGet("/WeddingINFO")]
+        public IActionResult WeddingINFO()
         {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            if(HttpContext.Session.GetInt32("user_id")== null)
+            {
+                ModelState.AddModelError("Email","Don't be sneaky");
+                ModelState.AddModelError("Password","I know what you did last summer :) !!!");
+                return View("Login");
+            }
+
+            return View("WeddingINFO");
         }
-
-
 
 
 

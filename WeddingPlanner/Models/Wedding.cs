@@ -11,8 +11,10 @@ namespace WeddingPlanner.Models
     public string Groom {get;set;}
     [Required]
     public string Bride {get;set;}
+
     [Required]
-    public DataType Date {get;set;}
+    [DataType(DataType.Date)]
+    public DateTime Date {get;set;}
     [Required]
     public string Adress {get;set;}
     public User User {get;set;}

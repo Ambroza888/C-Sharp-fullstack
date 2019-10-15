@@ -2976,13 +2976,13 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "Views\\Shared\\_CookieConsentPartial.cshtml",
-      "TargetPath": "Views\\Shared\\_CookieConsentPartial.cshtml",
+      "FilePath": "Views\\Home\\AddWedding.cshtml",
+      "TargetPath": "Views\\Home\\AddWedding.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "Views\\Home\\Success.cshtml",
-      "TargetPath": "Views\\Home\\Success.cshtml",
+      "FilePath": "Views\\Shared\\_CookieConsentPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_CookieConsentPartial.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -2996,6 +2996,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\Home\\WeddingINFO.cshtml",
+      "TargetPath": "Views\\Home\\WeddingINFO.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\Home\\Login.cshtml",
       "TargetPath": "Views\\Home\\Login.cshtml",
       "FileKind": "mvc"
@@ -3003,6 +3008,11 @@
     {
       "FilePath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Home\\Dashbord.cshtml",
+      "TargetPath": "Views\\Home\\Dashbord.cshtml",
       "FileKind": "mvc"
     }
   ],

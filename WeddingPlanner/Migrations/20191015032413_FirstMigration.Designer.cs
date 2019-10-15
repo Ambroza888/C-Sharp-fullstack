@@ -9,7 +9,7 @@ using WeddingPlanner.Models;
 namespace WeddingPlanner.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20191015014201_FirstMigration")]
+    [Migration("20191015032413_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,15 +72,18 @@ namespace WeddingPlanner.Migrations
                     b.Property<int>("WeddingId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Adress");
+                    b.Property<string>("Adress")
+                        .IsRequired();
 
-                    b.Property<string>("Bride");
+                    b.Property<string>("Bride")
+                        .IsRequired();
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("Date");
+                    b.Property<DateTime>("Date");
 
-                    b.Property<string>("Groom");
+                    b.Property<string>("Groom")
+                        .IsRequired();
 
                     b.Property<DateTime>("UpdatedAt");
 
