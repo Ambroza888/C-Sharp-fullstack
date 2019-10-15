@@ -1,3 +1,4 @@
+
   <div class="row">
       <h1 class="col-10">Wellcome to the Wedding Planner</h1>
       <a class ="col" href="/clear">LOG OUT</a>
@@ -14,12 +15,30 @@
           </tr>
         </thead>
         <tbody>
+          @foreach(Wedding i in @ViewBag.all_weddings)
+          {
           <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>boto</td>
-            <td>boto</td>
+            <td><a href="/WeddingINFO/@i.WeddingId">@i.Groom and @i.Bride</a></td>
+            <td>@i.Date.ToString("MMM dd yyyy")</td>
+            <td>@i.Rsvps.Count</td>
+            @if(@ViewBag.oneUser.UserId == i.UserId)
+            {
+            <td><a href="#">Delete</a></td>
+            }
+            else
+            {
+              @if(i.Rsvps.Any(q=>q.UserId == @ViewBag.oneUser.UserId))
+              {
+                <td><a href="#">Un-RSVP</a></td>
+              }
+              else
+              {
+                <td><a href="#">RSVP</a></td>
+              }
+            } 
+              
           </tr>
+          }
         </tbody>
       </table>
     </div>

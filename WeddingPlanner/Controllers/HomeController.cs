@@ -123,16 +123,12 @@ namespace WeddingPlanner.Controllers
                 User oneUser = dbContext.Users.Include(r => r.Rsvps).ThenInclude(w=>w.Wedding).FirstOrDefault(u =>u.UserId == (int)HttpContext.Session.GetInt32("user_id"));
 
                 //*** Get all the weddings
-                List <Wedding> all_weddings = dbContext.Weddings.Include(r =>r.Rsvps).ThenInclude(w => w.Wedding).ToList();
-                
-                //*** Find all the reservetaions connected with the user
-                List<Rsvp> UserReservetaions = dbContext.Rsvps.Where(w=>w.User.Equals(oneUser)).ToList();
-                foreach (var i in UserReservetaions)
-                {
-                    Console.WriteLine($"***********{i.User.FirstName}");
-                    Console.WriteLine($"***********{i.User.UserId}");
-                }
+                List <Wedding> all_weddings = dbContext.Weddings.Include(r =>r.Rsvps).ThenInclude(w => w.User).ToList();
 
+
+                
+                ViewBag.all_weddings = all_weddings;
+                ViewBag.oneUser = oneUser;
 
                     return View("Dashbord");
             }
