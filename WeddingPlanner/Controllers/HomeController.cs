@@ -161,9 +161,12 @@ namespace WeddingPlanner.Controllers
             if(newwed.Date < DateTime.Now)
             {
                 ModelState.AddModelError("Date","Wedding must be in the future");
+
+                //*** i need to assign this session again because i need it when i View it back
                 @ViewBag.user_id = (int)HttpContext.Session.GetInt32("user_id");
                 return View("AddWedding");
             }
+            //*** The same here i need to assign session again !
             newwed.UserId = (int)HttpContext.Session.GetInt32("user_id");
             dbContext.Add(newwed);
             dbContext.SaveChanges();
