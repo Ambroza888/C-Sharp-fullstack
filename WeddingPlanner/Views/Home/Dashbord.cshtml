@@ -23,7 +23,7 @@
             <td>@i.Rsvps.Count</td>
             @if(@ViewBag.oneUser.UserId == i.UserId)
             {
-            <td><a href="#">Delete</a></td>
+            <td><a href="/delete/@i.WeddingId">Delete</a></td>
             }
             else
             {
@@ -33,7 +33,7 @@
               }
               else
               {
-                <td><a href="#">RSVP</a></td>
+                <td><a href="/join/@i.WeddingId">RSVP</a></td>
               }
             } 
               

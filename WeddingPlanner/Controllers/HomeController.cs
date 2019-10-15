@@ -126,7 +126,7 @@ namespace WeddingPlanner.Controllers
                 List <Wedding> all_weddings = dbContext.Weddings.Include(r =>r.Rsvps).ThenInclude(w => w.User).ToList();
 
 
-                
+
                 ViewBag.all_weddings = all_weddings;
                 ViewBag.oneUser = oneUser;
 
@@ -191,9 +191,61 @@ namespace WeddingPlanner.Controllers
 
             return View("WeddingINFO");
         }
+        // ---------------------------------------------------------------------
+        // DELETE WEDDING
+        // ---------------------------------------------------------------------
+
+        [HttpGet("/delete/{WeddingId}")]
+        public IActionResult DeleteWedding(int WeddingId)
+        {
+            if(HttpContext.Session.GetInt32("user_id")==null){
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                Wedding wedding = dbContext.Weddings.FirstOrDefault(w =>w.WeddingId == WeddingId);
+                dbContext.Remove(wedding);
+                dbContext.SaveChanges();
+            return RedirectToAction("Dashbord");
+            }
+        }
+        // ---------------------------------------------------------------------
+        // Joint Wedding
+        // ---------------------------------------------------------------------
+        [HttpGet("/join/{WeddingId}")]
+        public IActionResult JointWedding(int WeddingId)
+        {
+            if(HttpContext.Session.GetInt32("user_id") == null)
+            {
+                return RedirectToAction("Login");
+            }
+            //*** Retrive the user with all his tables
+            User user = dbContext.Users.Include(u=>u.Rsvps)
+                .ThenInclude(r=>r.Wedding)
+                    .FirstOrDefault(u=>u.UserId == (int)HttpContext.Session.GetInt32("user_id"));
+
+            //*** retrive the wedding with every table
+            Wedding wedding = dbContext.Weddings.Include(w=>w.Rsvps)
+                .ThenInclude(r=>r.User).FirstOrDefault(w=>w.WeddingId == WeddingId);
+            
+            //***Build RSVP and then import it in  the DB :)
+            Rsvp newRVSP = new Rsvp
+            {
+                UserId = user.UserId,
+                User = user,
+                WeddingId = wedding.WeddingId,
+                Wedding = wedding,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+            
+            //*** Now we have the newRsvp and is time to put it in DB
+            dbContext.Add(newRVSP);
+            dbContext.SaveChanges();
 
 
-
+            return RedirectToAction("Dashbord");
+        }
 
 
 
