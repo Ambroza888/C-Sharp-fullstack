@@ -155,20 +155,24 @@ namespace WeddingPlanner.Controllers
             {
                 return RedirectToAction("Login");
             }
+
+            if(ModelState.IsValid)
+            {
             if(newwed.Date < DateTime.Now)
             {
                 ModelState.AddModelError("Date","Wedding must be in the future");
+                @ViewBag.user_id = (int)HttpContext.Session.GetInt32("user_id");
                 return View("AddWedding");
             }
-            if(ModelState.IsValid)
-            {
-                dbContext.Add(newwed);
-                dbContext.SaveChanges();
-                int wed_id = newwed.WeddingId;
-                return Redirect($"WeddingINFO/{wed_id}");
+            newwed.UserId = (int)HttpContext.Session.GetInt32("user_id");
+            dbContext.Add(newwed);
+            dbContext.SaveChanges();
+            int wed_id = newwed.WeddingId;
+            return Redirect($"WeddingINFO/{wed_id}");
             }
             else
             {
+                @ViewBag.user_id = (int)HttpContext.Session.GetInt32("user_id");
                 ViewBag.errors = ModelState.Values;
                 return View("AddWedding");
             }
@@ -210,7 +214,7 @@ namespace WeddingPlanner.Controllers
             }
         }
         // ---------------------------------------------------------------------
-        // Joint Wedding
+        // Join Wedding
         // ---------------------------------------------------------------------
         [HttpGet("/join/{WeddingId}")]
         public IActionResult JointWedding(int WeddingId)
@@ -242,10 +246,42 @@ namespace WeddingPlanner.Controllers
             //*** Now we have the newRsvp and is time to put it in DB
             dbContext.Add(newRVSP);
             dbContext.SaveChanges();
-
-
             return RedirectToAction("Dashbord");
         }
+        
+        // ---------------------------------------------------------------------
+        // Exit Wedding (un-RSVP)
+        // ---------------------------------------------------------------------
+        [HttpGet("exitWedding/{WeddingId}")]
+        public IActionResult exitWedding(int WeddingId)
+        {
+            if(HttpContext.Session.GetInt32("user_id") == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            //*** Find user_id and the WeddingId from the Rout and quiry the quiry
+            int user_id = (int)HttpContext.Session.GetInt32("user_id");
+
+            //*** Find the Quiery where user_id and WeddingId are matching and update it
+            Rsvp rsvp = dbContext.Rsvps
+                    .FirstOrDefault(u => u.UserId == user_id && u.WeddingId == WeddingId);
+
+            dbContext.Remove(rsvp);
+            dbContext.SaveChanges();
+            return RedirectToAction("Dashbord");
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -29,7 +29,7 @@
             {
               @if(i.Rsvps.Any(q=>q.UserId == @ViewBag.oneUser.UserId))
               {
-                <td><a href="#">Un-RSVP</a></td>
+                <td><a href="/exitWedding/@i.WeddingId">Un-RSVP</a></td>
               }
               else
               {
