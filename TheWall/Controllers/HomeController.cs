@@ -142,6 +142,7 @@ namespace TheWall.Controllers
             ///*** Don't forget ViewBAG! !! sCUM BAG !
             List<Message> allmessages = dbContext.Messages.OrderByDescending(w =>w.CreatedAt).Include(w=>w.User).ThenInclude(w=>w.Comments).ToList();
             ViewBag.allmessages = allmessages;
+            ViewBag.user_id = HttpContext.Session.GetInt32("user_id");
             return View("Success");
         }
 
@@ -165,11 +166,26 @@ namespace TheWall.Controllers
             List<Message> allmessages = dbContext.Messages.OrderByDescending(w =>w.CreatedAt).Include(w=>w.User).ThenInclude(w=>w.Comments).ToList();
             ViewBag.allmessages = allmessages;
             ViewBag.errors = ModelState.Values;
+            ViewBag.user_id = HttpContext.Session.GetInt32("user_id");
             return View("Success");
 
         }
 
-
+        // ---------------------------------------------------------------------
+        // Delete Comment
+        // ---------------------------------------------------------------------
+        [HttpGet("/Delete/{MessageId}")]
+        public IActionResult Delete(int MessageId)
+        {
+            if(HttpContext.Session.GetInt32("user_id")==null)
+            {
+                return RedirectToAction("Login");
+            }
+            Message message = dbContext.Messages.FirstOrDefault(q =>q.MessageId == MessageId);
+            dbContext.Messages.Remove(message);
+            dbContext.SaveChanges();
+            return RedirectToAction("Success");
+        }
 
 
 
