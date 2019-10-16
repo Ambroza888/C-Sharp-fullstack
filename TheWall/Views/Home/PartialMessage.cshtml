@@ -1,0 +1,8 @@
+@model Message
+  <form action="/PostMessage" method="post">
+      <p>Post a message</p>
+      <span asp-validation-for="MessageText"></span>
+      <textarea asp-for="MessageText" cols="100" rows="3"></textarea>
+      <input type="hidden" asp-for="UserId" value="@ViewBag.user_id">
+      <p><input class="bg-danger" type="submit" value= "Post a Message"></p>
+  </form>

@@ -1,0 +1,35 @@
+@model Comment
+<h1 class="text-center">Success</h1>
+<div class="row">
+<a class ="col text-center" style="font-size:40px;" href="/clear">LOG OUT</a>
+</div>
+
+<div class="row">
+  <div class="col">
+    <partial name="PartialMessage"></partial>
+    @foreach(Message i in @ViewBag.allmessages)
+    {
+      <h6></h6>
+      <p >@i.MessageText</p>
+        if(i.Comments != null)
+        {
+          @foreach(Comment j in i.Comments)
+          {
+            <p>@j.CommentText</p>
+          }
+        }
+      <div class="col ml-5">
+            <p>Post a Comment</p>
+            <form action="/PostComment" method="post">
+                <span asp-validation-for="CommentText"></span>
+                <textarea asp-for="CommentText" cols="90" rows="2"></textarea>
+                <input type="hidden" asp-for="UserId" value="@ViewBag.user_id">
+                <input type="hidden" asp-for="MessageId" value="@i.MessageId">
+                <p>
+                  <input class="bg-success" type="submit" value= "Post a Comment">
+                </p>
+        </form>
+      </div>
+    }
+  </div>
+</div>
