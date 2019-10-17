@@ -23,6 +23,7 @@
       <div class="col-3 p-0">
         <p><span class="text-danger" asp-validation-for="Duration"></span></p>
         <p>Duration: <input asp-for="Duration"></p>
+        <span asp-validation-for="Description"></span>
       </div>
       <div class="col-1 p-0">
         <input type="hidden" value="@ViewBag.user_id" asp-for="UserId">
@@ -36,6 +37,7 @@
     </div>
     <div class="row">
       <div class="col">
+        <span asp-validation-for="Description"></span>
         <textarea asp-for="Description" cols="90" rows="4"></textarea>
       </div>
     </div>

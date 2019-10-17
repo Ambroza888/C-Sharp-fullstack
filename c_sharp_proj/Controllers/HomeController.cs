@@ -171,7 +171,7 @@ namespace c_sharp_proj.Controllers
             {
                 @ViewBag.user_id = (int)HttpContext.Session.GetInt32("user_id");
                 ViewBag.errors = ModelState.Values;
-                return View("AddWedding");
+                return View("createActivity");
             }
         }
 
@@ -179,8 +179,18 @@ namespace c_sharp_proj.Controllers
         // INFO ABOUT THE ACTIVITY
         // ---------------------------------------------------------------------
         [HttpGet("/INFOActivity/{_ActivityId}")]
-        public IActionResult INFOActivity(int _ActivittyId)
+        public IActionResult INFOActivity(int _ActivityId)
         {
+            if(HttpContext.Session.GetInt32("user_id")== null)
+            {
+                return RedirectToAction("Login");
+            }
+            _Activity activity = dbContext.Activities.Include(a =>a.User).Include(a => a.Associations)
+                .ThenInclude(a => a.User)
+                    .FirstOrDefault(i =>i._ActivityId == _ActivityId);
+
+            ViewBag.activity = activity;
+
             return View("INFOActivity");
         }
 
@@ -205,8 +215,56 @@ namespace c_sharp_proj.Controllers
         // ---------------------------------------------------------------------
         // Cancel Activity jOIN
         // ---------------------------------------------------------------------
+        [HttpGet("/Cancel/{_ActivityId}")]
+        public IActionResult Cancel(int _ActivityId)
+        {
+            if(HttpContext.Session.GetInt32("user_id")== null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            int user_id = (int)HttpContext.Session.GetInt32("user_id");
+            
+            Association ass = dbContext.Associations
+                    .FirstOrDefault(u=>u.UserId == user_id && u._ActivityId == _ActivityId);
+
+            dbContext.Remove(ass);
+            dbContext.SaveChanges();
+            
+
+            return RedirectToAction("Dashbord");
+        }
+
+        // ---------------------------------------------------------------------
+        // Joint activity
+        // ---------------------------------------------------------------------
+        [HttpGet("/Join/{_ActivityId}")]
+        public IActionResult Join(int _ActivityId)
+        {
+            if(HttpContext.Session.GetInt32("user_id") == null)
+            {
+                return RedirectToAction("Login");
+            }
+            User user = dbContext.Users.Include(q =>q.Associations)
+                .ThenInclude(w=>w._Activity)
+                    .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("user_id"));
 
 
+            _Activity _Activity = dbContext.Activities.Include(q =>q.Associations).ThenInclude(u => u.User).FirstOrDefault(w => w._ActivityId == _ActivityId);
+
+            Association ass = new Association()
+            {
+                UserId = user.UserId,
+                User = user,
+                _ActivityId = _ActivityId,
+                _Activity = _Activity,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+            dbContext.Add(ass);
+            dbContext.SaveChanges();
+                return RedirectToAction("Dashbord");
+            }
 
 
 

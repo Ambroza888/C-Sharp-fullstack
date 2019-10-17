@@ -1,5 +1,20 @@
 <div class="row">
-      <h1 class="col-8">ACTIVITY NAME INFORMATIO</h1>
+      <h1 class="col-8">Activity Info</h1>
       <a class ="col" href="/Dashbord">Dashboard</a>
       <a class ="col" href="/clear">LOG OUT</a>
   </div>
+
+<h3>Activity : @ViewBag.activity.Title</h3>
+<p>Cordinator : @ViewBag.activity.User.FirstName</p>
+<p>Description :</p>
+<p>@ViewBag.activity.Description</p>
+@if(@ViewBag.activity.Associations.Count >0)
+{
+<p>Participations</p>
+<ul>
+@foreach(Association i in @ViewBag.activity.Associations)
+{
+    <li>@i.User.FirstName @i.User.LastName</li>
+}
+</ul>
+}
