@@ -27,17 +27,17 @@
             <td>@i.Associations.Count</td>
             @if(@i.User.UserId == @ViewBag.user_id)
             {
-            <td><a href="#">Delete</a></td>
+            <td><a href="/deleteActivity/@i._ActivityId">Delete</a></td>
             }
             else
             {
-              @if(@i.Associations.Any(a => a.UserId != @ViewBag.user_id))
+              @if(@i.Associations.Any(a => a.UserId == @ViewBag.user_id))
               {
-                <td>Join</td>
+                <td><a href="/Cancel/@i._ActivityId">Cancel</a></td>
               }
               else
               {
-                <td>Cancel</td>
+                <td><a href="#">Join</a></td>
               }
             }
           </tr>

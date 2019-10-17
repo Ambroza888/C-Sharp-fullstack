@@ -184,6 +184,27 @@ namespace c_sharp_proj.Controllers
             return View("INFOActivity");
         }
 
+        // ---------------------------------------------------------------------
+        // Deleting Activity
+        // ---------------------------------------------------------------------
+
+        [HttpGet("/deleteActivity/{_ActivityId}")]
+        public IActionResult deleteActivity(int _ActivityId)
+        {
+            if(HttpContext.Session.GetInt32("user_id") == null)
+            {
+                return RedirectToAction("Login");
+            }
+            _Activity one = dbContext.Activities.FirstOrDefault(a=> a._ActivityId == _ActivityId);
+            dbContext.Remove(one);
+            dbContext.SaveChanges();
+            return RedirectToAction("Dashbord");
+        }
+
+
+        // ---------------------------------------------------------------------
+        // Cancel Activity jOIN
+        // ---------------------------------------------------------------------
 
 
 

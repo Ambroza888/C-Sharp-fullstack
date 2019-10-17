@@ -25,6 +25,7 @@
             public DateTime Time {get;set;}
 
             [Required]
+            [Range(0,int.MaxValue)]
             public int Duration {get;set;}
             [Required]
             public string HDW {get;set;}
