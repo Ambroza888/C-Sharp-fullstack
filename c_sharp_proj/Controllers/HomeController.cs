@@ -189,7 +189,12 @@ namespace c_sharp_proj.Controllers
                 .ThenInclude(a => a.User)
                     .FirstOrDefault(i =>i._ActivityId == _ActivityId);
 
+
+            // List<_Activity> all_activity = dbContext.Activities.Include(w =>w.User).Include(q =>q.Associations).ThenInclude(w => w.User).ToList();
+
+            // ViewBag.all_activities = all_activity;
             ViewBag.activity = activity;
+            ViewBag.user_id = (int)HttpContext.Session.GetInt32("user_id");
 
             return View("INFOActivity");
         }

@@ -18,3 +18,33 @@
 }
 </ul>
 }
+
+
+
+@if(@ViewBag.user_id == @ViewBag.activity.User.UserId)
+{
+<div class="row">
+    <div class="col">
+        <button><a href="/deleteActivity/@ViewBag.activity._ActivityId">Delete</a></button>
+    </div>
+</div>
+}
+else
+{
+    @if(@ViewBag.activity.Associations.Any(w=>w.UserId == @ViewBag.user_id))
+    {
+<div class="row">
+    <div class="col">
+        <button><a href="/deleteActivity/@ViewBag.activity._ActivityId">Cancel</a></button>
+    </div>
+</div>
+    }
+    else
+    {
+<div class="row">
+    <div class="col">
+        <button><a href="/deleteActivity/@ViewBag.activity._ActivityId">Cancel</a></button>
+    </div>
+</div>
+    }
+}
